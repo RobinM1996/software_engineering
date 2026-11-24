@@ -14,7 +14,10 @@ from fieldcheck.core import ndvi, summarize
 from fieldcheck.io import read_csv
 
 logger = logging.getLogger(__name__)
-
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(levelname)s: %(message)s",
+)
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Summarize synthetic reflectance CSV")
@@ -50,6 +53,6 @@ def main(argv=None):
     )
     return 0
 
-
+# python cli.py --input data/tiny.csv --input data/test.csv
 if __name__ == "__main__":
     raise SystemExit(main())

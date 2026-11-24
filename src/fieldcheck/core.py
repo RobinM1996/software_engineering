@@ -3,13 +3,17 @@
 import math
 
 import numpy as np
+import logging
 
+logger = logging.getLogger(__name__)
 
 def ndvi_value(red, nir, quality):
     """Lab 2: extract the script's calculation for one observation."""
     # Move the calculation from archive/analysis.py here; return its value.
     # Preserve its existing numerical behavior for now, including its defects.
-    if red + nir == 0:
+    if quality not in [0,1]:
+        raise ValueError
+    if red + nir <= 0 or quality != 0 or not (math.isfinite(nir) and 0 <= nir <= 1) or not (math.isfinite(red) and 0 <= red <= 1):
         value = float("nan")
     else:
         value = (nir - red) / (nir + red)
@@ -41,7 +45,8 @@ def summarize(values):
     for value in values:
         if math.isfinite(value):
             valid_values.append(value)
-    n = sum(value != 0 for value in valid_values)
+    n = len(valid_values)
+    logger.info("Inlcuded valid counts", valid_values)
     if len(valid_values) == 0:
         return None
     mean = sum(valid_values) / len(valid_values)
@@ -49,7 +54,7 @@ def summarize(values):
     # Return n_total, n_valid, and mean_ndvi in a dictionary.
     out = {
         "n_total": len(values),
-        "n_valid": sum(value != 0 for value in valid_values),
+        "n_valid": n,
         "mean_ndvi": sum(valid_values) / len(valid_values),
     }
     return out
