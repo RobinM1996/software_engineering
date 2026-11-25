@@ -34,7 +34,7 @@ jobs:
           uv sync
 
       - name: Build documentation
-        run: pdoc fieldcheck -o site
+        run: uv run pdoc fieldcheck -o site
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
