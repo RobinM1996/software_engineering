@@ -11,8 +11,6 @@ dependencies = [
     "numpy>=2,<3",
     "pdoc",
 ]
-# This training project is not intended for upload to a public package index.
-classifiers = ["Private :: Do Not Upload"]
 
 [project.scripts]
 fieldcheck = "fieldcheck.cli:main"
