@@ -7,6 +7,7 @@ import numpy as np
 
 logger = logging.getLogger(__name__)
 
+
 def ndvi_value(red, nir, quality):
     """Return one index, or NaN for an excluded/invalid measurement.
 
@@ -30,9 +31,14 @@ def ndvi_value(red, nir, quality):
     """
     # Move the calculation from archive/analysis.py here; return its value.
     # Preserve its existing numerical behavior for now, including its defects.
-    if quality not in [0,1]:
+    if quality not in [0, 1]:
         raise ValueError
-    if red + nir <= 0 or quality != 0 or not (math.isfinite(nir) and 0 <= nir <= 1) or not (math.isfinite(red) and 0 <= red <= 1):
+    if (
+        red + nir <= 0
+        or quality != 0
+        or not (math.isfinite(nir) and 0 <= nir <= 1)
+        or not (math.isfinite(red) and 0 <= red <= 1)
+    ):
         value = float("nan")
     else:
         value = (nir - red) / (nir + red)
