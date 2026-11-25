@@ -1,0 +1,47 @@
+name: Autoformat Python
+
+on:
+  push:
+    branches: ["**"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ruff-format-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Apply Ruff formatting
+        uses: astral-sh/ruff-action@v4.1.0
+        with:
+          args: format
+
+      - name: Commit and push formatting changes
+        run: |
+          git add -u
+
+          # Check if there are any changes
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          # Configure Git identity
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Commit changes
+          git commit -m "style: apply Ruff formatting"
+
+          # Push changes (requires token)
+          git push origin ${{ github.ref_name }}
