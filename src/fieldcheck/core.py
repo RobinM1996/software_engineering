@@ -49,8 +49,7 @@ def ndvi(red, nir, quality):
     """
     Compute NDVI (Normalized Difference Vegetation Index) for multiple pixels.
 
-    This function applies the scalar NDVI calculation to arrays of red and near-infrared
-    reflectance values, along with quality flags, returning a vector of NDVI values.
+    Ts, returning a vector of NDVI values.
 
     Parameters
     ----------
