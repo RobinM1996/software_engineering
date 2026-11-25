@@ -19,10 +19,13 @@ logging.basicConfig(
     format="%(levelname)s: %(message)s",
 )
 
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Summarize synthetic reflectance CSV")
     parser.add_argument("input", default="data/tiny.csv", type=Path)
-    parser.add_argument("--output", default="reports/report.json", type=Path, required=True)
+    parser.add_argument(
+        "--output", default="reports/report.json", type=Path, required=True
+    )
     parser.add_argument("--verbose", action="store_true")
     args = parser.parse_args(argv)
     logging.basicConfig(
@@ -52,6 +55,7 @@ def main(argv=None):
         "Wrote %s (%s/%s valid)", args.output, report["n_valid"], report["n_total"]
     )
     return 0
+
 
 # python cli.py --input data/tiny.csv --input data/test.csv
 if __name__ == "__main__":
