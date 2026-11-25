@@ -22,12 +22,12 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v9.0.0
         with:
           version: "0.13.7"
           python-version: "3.12"
-      - name: Checkout code
-        uses: actions/checkout@v7
 
       - name: Install dependencies
         run: |
