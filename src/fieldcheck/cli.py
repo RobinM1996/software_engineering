@@ -20,6 +20,22 @@ logging.basicConfig(
 )
 
 def main(argv=None):
+    """
+    Summarize NDVI from synthetic reflectance CSV and write report.
+
+    Reads red/NIR/quality data, computes NDVI, and saves summary stats
+    including input hash and version info.
+
+    Parameters
+    ----------
+    argv : list, optional
+        Command-line arguments (for testing). Defaults to sys.argv.
+
+    Returns
+    -------
+    int
+        Exit code: 0 on success, 2 on error.
+    """
     parser = argparse.ArgumentParser(description="Summarize synthetic reflectance CSV")
     parser.add_argument("input", default="data/tiny.csv", type=Path)
     parser.add_argument("--output", default="reports/report.json", type=Path, required=True)

@@ -8,7 +8,26 @@ import numpy as np
 logger = logging.getLogger(__name__)
 
 def ndvi_value(red, nir, quality):
-    """Lab 2: extract the script's calculation for one observation."""
+    """Return one index, or NaN for an excluded/invalid measurement.
+
+    Bands are already-scaled, dimensionless reflectances in [0, 1].
+    Quality is 0 (clear) or 1 (excluded); other codes raise ValueError.
+    Negative and zero NDVI values remain valid.
+
+    Parameters
+    ----------
+    red : float
+        value of red
+    nir : float
+        near infrared value
+    quality : int
+        quality of the value
+
+    Returns
+    -------
+    float
+        gives back the calculated nvdi value
+    """
     # Move the calculation from archive/analysis.py here; return its value.
     # Preserve its existing numerical behavior for now, including its defects.
     if quality not in [0,1]:
@@ -21,7 +40,55 @@ def ndvi_value(red, nir, quality):
 
 
 def ndvi(red, nir, quality):
-    """Supplied wrapper: apply the scalar function to equally shaped 1-D inputs."""
+    """
+    Compute NDVI (Normalized Difference Vegetation Index) for multiple pixels.
+
+    This function applies the scalar NDVI calculation to arrays of red and near-infrared
+    reflectance values, along with quality flags, returning a vector of NDVI values.
+
+    Parameters
+    ----------
+    red : array_like
+        Array of red band reflectance values (0 to 1). Must be 1-D.
+    nir : array_like
+        Array of near-infrared (NIR) band reflectance values (0 to 1). Must be 1-D
+        and of the same shape as `red`.
+    quality : array_like
+        Array of quality flags (e.g., 0 = valid, non-zero = invalid). Must be 1-D
+        and of the same shape as `red`.
+
+    Returns
+    -------
+    ndvi_values : numpy.ndarray
+        1-D array of NDVI values computed as `(nir - red) / (nir + red)` for valid
+        pixels. Returns `nan` for invalid pixels (e.g., when `quality != 0` or
+        `nir + red <= 0`).
+
+    Raises
+    ------
+    ValueError
+        If `red`, `nir`, or `quality` are not 1-D arrays of the same shape.
+
+    See Also
+    --------
+    ndvi_value : Scalar version of this function for single values.
+    numpy.ndarray : Array data type used for input and output.
+
+    Notes
+    -----
+    - NDVI is defined as: (NIR - Red) / (NIR + Red)
+    - Values range from -1 to +1.
+    - Returns `nan` for invalid or zero-sum cases.
+    - Input arrays must be finite and in [0, 1] (enforced in `ndvi_value`).
+
+    Examples
+    --------
+    >>> red = [0.2, 0.3, 0.0]
+    >>> nir = [0.6, 0.4, 0.1]
+    >>> quality = [0, 0, 1]  # third pixel is invalid
+    >>> ndvi(red, nir, quality)
+    array([ 0.5       , -0.16666667,        nan])
+    """
     red = np.asarray(red, dtype=float)
     nir = np.asarray(nir, dtype=float)
     quality = np.asarray(quality)
@@ -34,7 +101,27 @@ def ndvi(red, nir, quality):
 
 
 def summarize(values):
-    """Lab 2: extract the script's filtering, counting, and mean calculation."""
+    """
+    Count finite values and compute their mean.
+
+    Parameters
+    ----------
+    values : array_like
+        1-D array of numeric values (e.g., NDVI).
+
+    Returns
+    -------
+    dict
+        Dictionary with:
+        - 'n_total': total number of values
+        - 'n_valid': number of finite values
+        - 'mean_ndvi': mean of finite values, or None if none
+
+    Examples
+    --------
+    >>> summarize([1.0, 2.0, float('nan'), 3.0])
+    {'n_total': 4, 'n_valid': 3, 'mean_ndvi': 2.0}
+    """
     values = np.asarray(values, dtype=float)
     if values.ndim != 1:
         raise ValueError("values must be 1-D")

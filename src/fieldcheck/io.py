@@ -7,7 +7,26 @@ import numpy as np
 
 
 def read_csv(path: Path):
-    """Read red,nir,quality columns; additional columns such as id are allowed."""
+    """
+    Read red, nir, and quality columns from CSV.
+
+    Additional columns (e.g., id) are allowed.
+
+    Parameters
+    ----------
+    path : Path
+        Path to input CSV file.
+
+    Returns
+    -------
+    tuple of (np.ndarray, np.ndarray, np.ndarray)
+        red, nir, and quality arrays (float, float, int).
+
+    Raises
+    ------
+    ValueError
+        If required columns are missing or values are invalid.
+    """
     with path.open(encoding="utf-8", newline="") as stream:
         reader = csv.DictReader(stream)
         if not {"red", "nir", "quality"}.issubset(reader.fieldnames or []):
