@@ -9,6 +9,7 @@ description = "Synthetic reflectance analysis for a research software workshop"
 requires-python = ">=3.12,<3.16"
 dependencies = [
     "numpy>=2,<3",
+    "pdoc",
 ]
 # This training project is not intended for upload to a public package index.
 classifiers = ["Private :: Do Not Upload"]
