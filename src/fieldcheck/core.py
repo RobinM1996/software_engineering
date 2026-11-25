@@ -46,16 +46,11 @@ def summarize(values):
         if math.isfinite(value):
             valid_values.append(value)
     n = len(valid_values)
-    logger.info("Inlcuded valid counts", valid_values)
-    if len(valid_values) == 0:
-        return None
-    mean = sum(valid_values) / len(valid_values)
-    print("total:", len(values), "valid:", n, "mean:", mean)
-    # Return n_total, n_valid, and mean_ndvi in a dictionary.
+    mean = sum(valid_values) / n if n else None
     out = {
         "n_total": len(values),
         "n_valid": n,
-        "mean_ndvi": sum(valid_values) / len(valid_values),
+        "mean_ndvi": mean,
     }
     return out
     # Use None for an empty mean so the supplied CLI can reject that analysis.

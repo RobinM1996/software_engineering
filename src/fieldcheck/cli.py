@@ -21,8 +21,8 @@ logging.basicConfig(
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Summarize synthetic reflectance CSV")
-    parser.add_argument("input", type=Path)
-    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("input", default="data/tiny.csv", type=Path)
+    parser.add_argument("--output", default="reports/report.json", type=Path, required=True)
     parser.add_argument("--verbose", action="store_true")
     args = parser.parse_args(argv)
     logging.basicConfig(
