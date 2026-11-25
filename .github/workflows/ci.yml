@@ -12,5 +12,5 @@ jobs:
           version: "0.13.7"
           python-version: "3.12"
       - run: |
-          apt-get install pytest
+          sudo apt-get install pytest
           uv run --locked pytest
