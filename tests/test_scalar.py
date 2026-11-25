@@ -1,6 +1,9 @@
-import pytest
-from fieldcheck.core import ndvi_value
 import math
+
+import pytest
+
+from fieldcheck.core import ndvi_value
+
 
 @pytest.mark.parametrize(
     "red,nir, q, expected", [(0.2, 0.6, 0, 0.5)]

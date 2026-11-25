@@ -1,9 +1,9 @@
 """Small, readable research-calculation example for the workshop."""
 
+import logging
 import math
 
 import numpy as np
-import logging
 
 logger = logging.getLogger(__name__)
 

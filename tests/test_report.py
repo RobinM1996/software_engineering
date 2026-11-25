@@ -4,6 +4,7 @@ import pytest
 
 from fieldcheck.cli import main
 
+
 def test_report(tmp_path):
     output = tmp_path / "report.json"
     assert main(["data/tiny.csv", "--output", str(output)]) == 0
